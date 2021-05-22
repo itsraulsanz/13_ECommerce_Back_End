@@ -116,7 +116,7 @@ Your database should contain the following four models, including the requiremen
   
     * Integer.
   
-    * References the `Category` model's `id`.
+    --> * References the `Category` model's `id`.
 
 * `Tag`
 
@@ -150,13 +150,13 @@ Your database should contain the following four models, including the requiremen
 
     * Integer.
 
-    * References the `Product` model's `id`.
+    --> * References the `Product` model's `id`.
 
   * `tag_id`
 
     * Integer.
 
-    * References the `Tag` model's `id`.
+    --> * References the `Tag` model's `id`.
 
 ### Associations
 
