@@ -1,8 +1,7 @@
 const router = require("express").Router();
 const { Tag, Product, ProductTag } = require("../../models");
 
-// The `/api/tags` endpoint
-
+// GET all tags
 router.get("/", (req, res) => {
   console.log("get tags hit");
   Tag.findAll({
@@ -17,9 +16,8 @@ router.get("/", (req, res) => {
   });
 });
 
+// GET a single tag
 router.get("/:id", (req, res) => {
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
   Tag.findOne({
     where: {
       id: req.params.id
@@ -35,16 +33,41 @@ router.get("/:id", (req, res) => {
   });
 });
 
+// POST a new tag
 router.post("/", (req, res) => {
-  // create a new tag
+  Tag.create(req.body)
+  .then((tag) => {
+    res.status(200).json(tag);
+  })
+  .then((tagIds) => res.status(200).json(tagIds))
+  .catch((err) => {
+    console.log(err);
+    res.status(400).json(err);
+  });
 });
 
+// UPDATE a tag
 router.put("/:id", (req, res) => {
-  // update a tag's name by its `id` value
+  Tag.update(req.body, { 
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((updateTag) => {
+      
+     res.json(updateTag)
+    })
 });
 
+// DELETE a tag
 router.delete("/:id", (req, res) => {
-  // delete on tag by its `id` value
+  Tag.destroy({
+    where:{
+      id:req.params.id,
+    },
+  }).then((tag) => {
+    res.json(tag)
+  });
 });
 
 module.exports = router;

@@ -3,19 +3,28 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
 
-// get all products
+// GET all products
 router.get('/', (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
+  Product.findAll({
+    include: [{model:Category},{model:Tag}]
+  }).then((productData) => {
+    res.json(productData)
+  })
 });
 
-// get one product
+// GET a single product
 router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+  Product.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [{model:Category},{model:Tag}]
+  }).then((productData) => {
+    res.json(productData)
+  })
 });
 
-// create new product
+// POST a new product
 router.post('/', (req, res) => {
   /* req.body should look like this...
     {
@@ -47,7 +56,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// update product
+// UPDATE product
 router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
@@ -89,8 +98,15 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// DELETE a product
 router.delete('/:id', (req, res) => {
-  // delete one product by its `id` value
+  Product.destroy({
+    where:{
+      id:req.params.id,
+    },
+  }).then((prod) => {
+    res.json(prod)
+  });
 });
 
 module.exports = router;
